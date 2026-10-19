@@ -1,0 +1,292 @@
+<title>Cash-Tracker Gerry</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#F3F5F2; --surface:#FFFFFF; --ink:#16201B; --muted:#5D6A63; --line:#DCE2DD;
+  --felt:#1F6B4A; --felt-soft:#E1EEE7; --chip:#B8862B;
+  --pos:#1F7A4D; --neg:#B3413A; --warn:#A86A12;
+  --display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body:"IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F1512; --surface:#17201B; --ink:#E6ECE8; --muted:#95A39B; --line:#2A3630;
+    --felt:#4CB585; --felt-soft:#1D3228; --chip:#D9A94A;
+    --pos:#5CC48F; --neg:#E57A71; --warn:#E0A548; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F1512; --surface:#17201B; --ink:#E6ECE8; --muted:#95A39B; --line:#2A3630;
+  --felt:#4CB585; --felt-soft:#1D3228; --chip:#D9A94A;
+  --pos:#5CC48F; --neg:#E57A71; --warn:#E0A548; color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.5;padding-inline:16px;padding-block:24px 48px}
+.wrap{max-width:1040px;margin:0 auto;display:grid;gap:28px}
+header{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:12px}
+h1{font-family:var(--display);font-size:clamp(28px,5vw,40px);line-height:1.05;margin:0;letter-spacing:-.01em;text-wrap:balance}
+h2{font-family:var(--display);font-size:20px;margin:0 0 12px}
+.sub{color:var(--muted);margin:6px 0 0}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;font-size:13px;font-weight:500;background:var(--felt-soft);color:var(--felt)}
+.pill.warn{background:color-mix(in srgb,var(--warn) 15%,transparent);color:var(--warn)}
+.pill.neg{background:color-mix(in srgb,var(--neg) 15%,transparent);color:var(--neg)}
+.banner{border:1px dashed var(--chip);color:var(--ink);background:color-mix(in srgb,var(--chip) 10%,var(--surface));padding:10px 14px;border-radius:8px;font-size:14px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:grid;gap:2px}
+.kpi .lbl{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.kpi .val{font-family:var(--mono);font-size:24px;font-weight:500;font-variant-numeric:tabular-nums}
+.kpi .hint{font-size:12.5px;color:var(--muted)}
+.pos{color:var(--pos)} .neg{color:var(--neg)}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px}
+.chart svg{width:100%;height:auto;display:block}
+.grid2{display:grid;grid-template-columns:1fr;gap:28px}
+form{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px}
+label{display:grid;gap:4px;font-size:13px;color:var(--muted)}
+input,select,textarea{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:7px;padding:8px 10px;width:100%}
+input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-visible{outline:2px solid var(--felt);outline-offset:1px}
+.span-all{grid-column:1/-1}
+.places{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+button{font:inherit;font-weight:600;border:0;border-radius:8px;padding:10px 16px;cursor:pointer}
+.primary{background:var(--felt);color:var(--surface)}
+.ghost{background:transparent;color:var(--muted);border:1px solid var(--line);padding:4px 10px;font-weight:500;font-size:13px}
+.danger{background:var(--neg);color:#fff;padding:4px 10px;font-size:13px}
+.formrow{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.msg{font-size:13.5px;color:var(--muted)}
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:760px;font-size:14px}
+th,td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:500}
+td.r,th.r{text-align:right}
+td.note{max-width:260px;color:var(--muted)}
+.example td{opacity:.6;font-style:italic}
+.tilt{display:inline-flex;gap:2px}
+.tilt i{width:7px;height:7px;border-radius:50%;background:var(--line);display:inline-block}
+.tilt i.on{background:var(--chip)}
+@media (prefers-reduced-motion:no-preference){ .kpi,.panel{transition:border-color .2s} }
+</style>
+
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Cash-Tracker</h1>
+      <p class="sub">Jede Session eintragen – Claude liest die Daten mit und wertet sie für dich aus. 6-max No-Limit Hold'em, Beträge in $.</p>
+    </div>
+    <span id="levelPill" class="pill">Stufe: –</span>
+  </header>
+
+  <div id="exampleBanner" class="banner" hidden>Beispieldaten zur Ansicht. Sie verschwinden, sobald du deine erste echte Session einträgst.</div>
+  <div id="offlineBanner" class="banner" hidden>Speichern ist in dieser Ansicht nicht verfügbar – Einträge gehen beim Neuladen verloren.</div>
+
+  <section class="kpis" aria-label="Kennzahlen">
+    <div class="kpi"><span class="lbl">Bankroll</span><span class="val" id="kBank">–</span><span class="hint" id="kBankHint">&nbsp;</span></div>
+    <div class="kpi"><span class="lbl">Gewinn</span><span class="val" id="kProfit">–</span><span class="hint" id="kProfitHint">&nbsp;</span></div>
+    <div class="kpi"><span class="lbl">Winrate</span><span class="val" id="kWr">–</span><span class="hint">bb/100 · Ziel NL2: &gt; 5</span></div>
+    <div class="kpi"><span class="lbl">Hände</span><span class="val" id="kHands">–</span><span class="hint" id="kHandsHint">&nbsp;</span></div>
+    <div class="kpi"><span class="lbl">Pro Stunde</span><span class="val" id="kHour">–</span><span class="hint" id="kHourHint">&nbsp;</span></div>
+  </section>
+
+  <section class="panel chart">
+    <h2>Bankroll-Verlauf</h2>
+    <div id="chart"></div>
+  </section>
+
+  <div class="grid2">
+    <section class="panel">
+      <h2>Session eintragen</h2>
+      <form id="f" autocomplete="off">
+        <label>Datum<input type="date" id="fDate" required></label>
+        <label>Limit
+          <select id="fStake">
+            <option value="0.02">NL2 ($0,01/$0,02)</option><option value="0.05">NL5 ($0,02/$0,05)</option><option value="0.10">NL10 ($0,05/$0,10)</option><option value="0.25">NL25 ($0,10/$0,25)</option>
+          </select></label>
+        <label>Spielart
+          <select id="fGame"><option>Zoom 6-max</option><option>6-max Tisch</option><option>9-max Tisch</option></select></label>
+        <label>Hände<input type="number" id="fHands" step="1" min="1" required inputmode="numeric" placeholder="500"></label>
+        <label>Gewinn/Verlust ($)<input type="number" id="fProfit" step="0.01" required inputmode="decimal" placeholder="-0.85"></label>
+        <label>Dauer (Minuten)<input type="number" id="fMin" step="1" min="1" inputmode="numeric" placeholder="60"></label>
+        <label>Tilt / Stimmung (1 ruhig – 5 tilt)
+          <select id="fTilt"><option>1</option><option selected>2</option><option>3</option><option>4</option><option>5</option></select></label>
+        <label class="span-all">Notiz / unklare Hände<textarea id="fNote" rows="2" placeholder="z. B. BTN vs BB 3-Bet mit AJo gecallt, Flop K72 – richtig?"></textarea></label>
+        <div class="formrow span-all">
+          <button class="primary" type="submit" id="fSubmit">Session speichern</button>
+          <span class="msg" id="fMsg" role="status"></span>
+        </div>
+      </form>
+      <details style="margin-top:16px">
+        <summary class="msg" style="cursor:pointer">Start-Bankroll: <span id="startLbl" class="num"></span> – ändern</summary>
+        <div class="formrow" style="margin-top:8px">
+          <label>Start-Bankroll ($)<input type="number" id="fStart" step="0.01" min="1" inputmode="decimal"></label>
+          <button class="ghost" type="button" id="bStart">Übernehmen</button>
+        </div>
+      </details>
+    </section>
+
+    <section class="panel">
+      <h2>Sessions</h2>
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Datum</th><th>Limit / Spielart</th><th class="r">Hände</th><th class="r">Ergebnis</th><th class="r">bb/100</th><th class="r">Dauer</th><th>Tilt</th><th>Notiz</th><th></th></tr></thead>
+          <tbody id="rows"></tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+</div>
+
+<script>
+(function(){
+  let START = 55;
+  const LEVELS = [ // Aufstieg ab ca. 30 Buy-ins (Buy-in = 100 BB)
+    {name:'NL2',  bb:0.02, up:0},
+    {name:'NL5',  bb:0.05, up:150},
+    {name:'NL10', bb:0.10, up:300},
+    {name:'NL25', bb:0.25, up:750}
+  ];
+  const NAME = {'0.02':'NL2','0.05':'NL5','0.10':'NL10','0.25':'NL25'};
+  const usd = v => (v<0?'−':'') + '$' + Math.abs(v).toLocaleString('de-DE',{minimumFractionDigits:2,maximumFractionDigits:2});
+  const signed = v => (v>0?'+':'') + usd(v);
+  const n1 = v => (v>0?'+':'') + v.toLocaleString('de-DE',{maximumFractionDigits:1});
+  const $ = id => document.getElementById(id);
+  const esc = s => String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+  const EXAMPLE = [
+    {id:'ex1',date:'2026-09-20',bb:0.02,game:'Zoom 6-max',hands:520,profit:0.64,min:55,tilt:2,note:'Beispiel'},
+    {id:'ex2',date:'2026-09-22',bb:0.02,game:'Zoom 6-max',hands:610,profit:-1.10,min:60,tilt:4,note:'Beispiel'},
+    {id:'ex3',date:'2026-09-23',bb:0.02,game:'Zoom 6-max',hands:480,profit:1.35,min:50,tilt:1,note:'Beispiel'}
+  ];
+
+  let sessions = [], db = null, pendingDelete = null;
+  $('fDate').value = new Date().toISOString().slice(0,10);
+
+  const levelFor = bank => LEVELS.filter(l=>bank>=l.up).pop();
+
+  function render(){
+    const real = sessions.length>0;
+    const data = (real?sessions:EXAMPLE).slice().sort((a,b)=>(a.date+(a.created||'')).localeCompare(b.date+(b.created||'')));
+    $('exampleBanner').hidden = real;
+    $('startLbl').textContent = usd(START); $('fStart').placeholder = START;
+
+    let profit=0, hands=0, bbWon=0, mins=0, minsProfit=0, bank=START;
+    const points=[{y:START}];
+    data.forEach(s=>{
+      profit+=s.profit; hands+=s.hands; bbWon+=s.profit/s.bb;
+      if(s.min){ mins+=s.min; minsProfit+=s.profit; }
+      bank+=s.profit; points.push({y:bank});
+    });
+    const wr = hands ? bbWon/hands*100 : 0;
+
+    $('kBank').textContent = usd(bank);
+    $('kBankHint').textContent = 'Start ' + usd(START);
+    $('kProfit').textContent = signed(profit);
+    $('kProfit').className = 'val ' + (profit>=0?'pos':'neg');
+    $('kProfitHint').textContent = data.length + ' Sessions';
+    $('kWr').textContent = hands ? n1(wr) : '–';
+    $('kWr').className = 'val ' + (wr>=0?'pos':'neg');
+    $('kHands').textContent = hands.toLocaleString('de-DE');
+    $('kHandsHint').textContent = hands<50000 ? `Winrate aussagekräftig ab ~50.000` : 'Stichprobe wird aussagekräftig';
+    $('kHour').textContent = mins ? signed(minsProfit/mins*60) : '–';
+    $('kHourHint').textContent = mins ? Math.round(hands/(mins/60)) + ' Hände/Std.' : 'Dauer eintragen';
+
+    const lvl = levelFor(bank), last = data[data.length-1], pill=$('levelPill');
+    if(last && bank < 20*100*last.bb){
+      pill.className='pill neg'; pill.textContent=`Abstieg: unter 20 Buy-ins – spiele ${lvl.name}`;
+    } else if(last && lvl.bb > last.bb){
+      pill.className='pill warn'; pill.textContent=`Aufstieg möglich: ${lvl.name} (Winrate prüfen)`;
+    } else { pill.className='pill'; pill.textContent=`Stufe: ${lvl.name}`; }
+
+    drawChart(points);
+
+    $('rows').innerHTML = data.slice().reverse().map(s=>{
+      const w = s.profit/s.bb/s.hands*100;
+      const tilt=[1,2,3,4,5].map(i=>`<i class="${i<=s.tilt?'on':''}"></i>`).join('');
+      const del = real ? (pendingDelete===s.id
+        ? `<button class="danger" data-del="${esc(s.id)}">Wirklich löschen</button> <button class="ghost" data-cancel>Abbrechen</button>`
+        : `<button class="ghost" data-ask="${esc(s.id)}">Löschen</button>`) : '';
+      return `<tr class="${real?'':'example'}">
+        <td class="num">${esc(new Date(s.date+'T12:00').toLocaleDateString('de-DE'))}</td>
+        <td>${esc(NAME[s.bb.toFixed(2)]||('bb '+s.bb))}<br><span style="color:var(--muted)">${esc(s.game)}</span></td>
+        <td class="r num">${s.hands.toLocaleString('de-DE')}</td>
+        <td class="r num ${s.profit>=0?'pos':'neg'}">${signed(s.profit)}</td>
+        <td class="r num ${w>=0?'pos':'neg'}">${n1(w)}</td>
+        <td class="r num">${s.min?s.min+' min':'–'}</td>
+        <td><span class="tilt" aria-label="Tilt ${s.tilt} von 5">${tilt}</span></td>
+        <td class="note">${esc(s.note)}</td>
+        <td>${del}</td></tr>`;
+    }).join('');
+  }
+
+  function drawChart(pts){
+    const W=900,H=260,L=64,R=20,T=16,B=34;
+    const ys=pts.map(p=>p.y); let min=Math.min(...ys,START), max=Math.max(...ys,START);
+    const span=Math.max(max-min,4); const pad=span*0.2; min=Math.floor(min-pad); max=Math.ceil(max+pad);
+    const n=Math.max(pts.length-1,1);
+    const x=i=>L+(W-L-R)*i/n, y=v=>T+(H-T-B)*(1-(v-min)/(max-min));
+    const raw=(max-min)/4; const mag=Math.pow(10,Math.floor(Math.log10(raw))); const step=[1,2,5,10].map(m=>m*mag).find(s=>s>=raw);
+    const ticks=[]; for(let v=Math.ceil(min/step)*step; v<=max; v+=step) ticks.push(+v.toFixed(2));
+    const line=pts.map((p,i)=>`${i?'L':'M'}${x(i).toFixed(1)},${y(p.y).toFixed(1)}`).join(' ');
+    const area=`${line} L${x(pts.length-1).toFixed(1)},${H-B} L${x(0).toFixed(1)},${H-B} Z`;
+    const last=pts[pts.length-1];
+    $('chart').innerHTML=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Bankroll-Verlauf nach Sessions">
+      ${ticks.map(v=>`<line x1="${L}" x2="${W-R}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)"/>
+        <text x="${L-8}" y="${y(v)+4}" text-anchor="end" font-size="12" fill="var(--muted)" font-family="IBM Plex Mono, monospace">$${v}</text>`).join('')}
+      <line x1="${L}" x2="${W-R}" y1="${y(START)}" y2="${y(START)}" stroke="var(--chip)" stroke-dasharray="4 4" stroke-width="1.2"/>
+      <text x="${W-R}" y="${y(START)-6}" text-anchor="end" font-size="11" fill="var(--chip)">Start ${usd(START)}</text>
+      <path d="${area}" fill="var(--felt)" fill-opacity=".10"/>
+      <path d="${line}" fill="none" stroke="var(--felt)" stroke-width="2.2" stroke-linejoin="round"/>
+      <circle cx="${x(pts.length-1)}" cy="${y(last.y)}" r="5" fill="${last.y>=START?'var(--pos)':'var(--neg)'}"/>
+      <text x="${L}" y="${H-10}" font-size="12" fill="var(--muted)">Session 0</text>
+      <text x="${W-R}" y="${H-10}" text-anchor="end" font-size="12" fill="var(--muted)">Session ${pts.length-1}</text>
+    </svg>`;
+  }
+
+  $('rows').addEventListener('click', async e=>{
+    const t=e.target;
+    if(t.dataset.ask){ pendingDelete=t.dataset.ask; render(); }
+    else if('cancel' in t.dataset){ pendingDelete=null; render(); }
+    else if(t.dataset.del){
+      const id=t.dataset.del; pendingDelete=null;
+      if(db){ try{ await db.collection('cash').doc(id).delete(); }catch(err){ $('fMsg').textContent='Löschen fehlgeschlagen: '+(err.message||err.code); render(); } }
+      else { sessions=sessions.filter(s=>s.id!==id); render(); }
+    }
+  });
+
+  $('bStart').addEventListener('click', async ()=>{
+    const v=parseFloat(String($('fStart').value).replace(',','.'));
+    if(!(v>0)) return;
+    START=v; render();
+    if(db){ try{ await db.doc('config/main').set({startBankroll:v}); }catch(_){ $('fMsg').textContent='Start-Bankroll konnte nicht gespeichert werden.'; } }
+  });
+
+  $('f').addEventListener('submit', async e=>{
+    e.preventDefault();
+    const num=id=>parseFloat(String($(id).value).replace(',','.'));
+    const s={ date:$('fDate').value, bb:parseFloat($('fStake').value), game:$('fGame').value,
+      hands:parseInt($('fHands').value,10), profit:num('fProfit'), min:parseInt($('fMin').value||'0',10)||null,
+      tilt:parseInt($('fTilt').value,10), note:$('fNote').value.trim(), created:new Date().toISOString() };
+    if(!(s.hands>0) || isNaN(s.profit)){ $('fMsg').textContent='Bitte Hände und Gewinn/Verlust angeben (Verlust mit Minus).'; return; }
+    $('fSubmit').disabled=true;
+    try{
+      if(db) await db.collection('cash').add(s);
+      else { s.id='local'+Date.now(); sessions.push(s); render(); }
+      $('fMsg').textContent='Gespeichert.';
+      ['fHands','fProfit','fMin','fNote'].forEach(id=>$(id).value='');
+    }catch(err){ $('fMsg').textContent='Speichern fehlgeschlagen: '+(err.message||err.code)+'. Bitte erneut versuchen.'; }
+    finally{ $('fSubmit').disabled=false; }
+  });
+
+  render();
+
+  (async()=>{
+    try{ db = window.claude && await window.claude.use('db'); }catch(_){ db=null; }
+    if(!db){ $('offlineBanner').hidden=false; return; }
+    db.doc('config/main').onSnapshot(d=>{ const v=d.exists && d.data().startBankroll; if(v>0){ START=v; render(); } });
+    db.collection('cash').onSnapshot(snap=>{
+      sessions=snap.docs.map(d=>Object.assign({id:d.id},d.data())); render();
+    }, err=>{ $('fMsg').textContent='Daten konnten nicht geladen werden ('+err.code+').'; });
+  })();
+})();
+</script>

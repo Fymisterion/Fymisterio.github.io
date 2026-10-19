@@ -1,0 +1,446 @@
+{
+ "meta": {
+  "format": "NLHE Cash 6-max, 100 BB, Open 2,5 BB (SB 3 BB)",
+  "source": "Vereinfachte GTO-nahe Richtwerte, selbst erstellt (Claude, 2026) – keine Solver-Ausgabe. Notation: 22+ = alle Paare ab 22, A2s+ = A2s bis AKs, AJo+ = AJo bis AKo, K2s-K4s = Spanne, \"+UTG\" = alle Hände der UTG-Range."
+ },
+ "rfi": {
+  "ranges": {
+   "UTG": "22+,A2s+,K9s+,Q9s+,J9s+,T9s,98s,ATo+,KJo+",
+   "HJ": "+UTG,K7s,K8s,T8s,87s,76s,65s,A9o,KTo,QJo",
+   "CO": "+HJ,K5s,K6s,Q8s,J8s,97s,86s,54s,A8o,QTo,JTo",
+   "BTN": "+CO,K2s-K4s,Q2s-Q7s,J6s,J7s,T6s,T7s,96s,85s,75s,64s,53s,43s,A2o-A7o,K8o,K9o,Q9o,J9o,T9o",
+   "SB": "+CO,K2s-K4s,Q4s-Q7s,J6s,J7s,T6s,T7s,96s,85s,75s,64s,A2o-A7o,K8o,K9o,Q9o"
+  },
+  "explain": {
+   "UTG": "UTG: Fünf Spieler kommen noch nach dir, und du spielst den Rest der Hand meist ohne Position. Deshalb nur starke Paare, gute Asse, suited Broadways und die besten Suited Connectors.",
+   "HJ": "Hijack: Vier Spieler nach dir. Kommen kleinere Suited Connectors, KTo und QJo dazu.",
+   "CO": "Cutoff: Nur noch Button und Blinds dahinter. Die Range wird deutlich breiter – mehr offsuit Broadways und A8o.",
+   "BTN": "Button: Du hast nach dem Flop immer Position. Deshalb öffnest du fast die Hälfte aller Hände, inklusive vieler schwacher Asse und Könige.",
+   "SB": "Small Blind: Nur noch der Big Blind nach dir, aber du bist nach dem Flop immer ohne Position. Deshalb etwas enger als der Button."
+  },
+  "general": "Je später deine Position, desto weniger Spieler kommen nach dir – und desto breiter darfst du öffnen. Vom UTG öffnest du rund ein Fünftel aller Hände, vom Button fast die Hälfte.",
+  "note": "Die Ranges sind vereinfachte, GTO-nahe Richtwerte für 6-max Cash mit Rake. Echte Solver-Lösungen mischen Grenzhände teilweise (z. B. 30 % Raise, 70 % Fold) – hier ist jede Hand entweder Raise oder Fold, damit du ein klares Grundgerüst lernst. Aus dem SB ist es eine reine Raise-Strategie gegen den Big Blind."
+ },
+ "vsOpen": {
+  "legend": "v=3-Bet Value, b=3-Bet Bluff, c=Call, Rest Fold",
+  "spots": {
+   "HJ_UTG": {
+    "v": "TT+,AKs,AQs,AJs,KQs,AKo,AQo",
+    "b": "A5s,A4s",
+    "c": ""
+   },
+   "CO_UTG": {
+    "v": "TT+,AKs,AQs,AJs,KQs,AKo,AQo",
+    "b": "A5s,A4s,A3s,KJs",
+    "c": ""
+   },
+   "CO_HJ": {
+    "v": "99+,AKs,AQs,AJs,ATs,KQs,KJs,AKo,AQo,AJo,KQo",
+    "b": "A5s-A2s,QJs,JTs",
+    "c": ""
+   },
+   "BTN_UTG": {
+    "v": "QQ+,AKs,AKo",
+    "b": "A5s,A4s",
+    "c": "JJ-22,AQs,AJs,ATs,KQs,KJs,KTs,QJs,QTs,JTs,T9s,98s,87s,AQo"
+   },
+   "BTN_HJ": {
+    "v": "JJ+,AKs,AQs,AKo",
+    "b": "A5s,A4s,A3s,K9s",
+    "c": "TT-22,AJs,ATs,A9s,KQs,KJs,KTs,QJs,QTs,JTs,J9s,T9s,98s,87s,76s,AQo,AJo,KQo"
+   },
+   "BTN_CO": {
+    "v": "TT+,AKs,AQs,AJs,KQs,AKo,AQo",
+    "b": "A5s-A2s,K9s,Q9s,J9s,T8s",
+    "c": "99-22,ATs-A6s,KJs,KTs,QJs,QTs,JTs,T9s,98s,87s,76s,65s,AJo,ATo,KQo,KJo"
+   },
+   "SB_UTG": {
+    "v": "JJ+,AKs,AQs,AJs,KQs,AKo",
+    "b": "A5s,A4s",
+    "c": ""
+   },
+   "SB_HJ": {
+    "v": "TT+,AKs,AQs,AJs,KQs,AKo,AQo",
+    "b": "A5s,A4s,A3s,KJs",
+    "c": ""
+   },
+   "SB_CO": {
+    "v": "99+,AKs,AQs,AJs,ATs,KQs,KJs,AKo,AQo,AJo,KQo",
+    "b": "A5s-A2s,KTs,QJs,QTs,JTs,T9s",
+    "c": ""
+   },
+   "SB_BTN": {
+    "v": "77+,AKs,AQs,AJs,ATs,A9s,KQs,KJs,KTs,QJs,AKo,AQo,AJo,ATo,KQo",
+    "b": "A8s-A2s,K9s,QTs,Q9s,JTs,J9s,T9s,98s,87s,66,55,KJo,QJo",
+    "c": ""
+   },
+   "BB_UTG": {
+    "v": "QQ+,AKs,AKo",
+    "b": "A5s,A4s",
+    "c": "JJ-22,AQs-A6s,A3s,A2s,KQs-K9s,QJs-Q9s,JTs,J9s,T9s,T8s,98s,97s,87s,76s,65s,54s,AQo,AJo,KQo,ATo,KJo,K8s,Q8s,J8s,86s,75s,64s"
+   },
+   "BB_HJ": {
+    "v": "QQ+,AKs,AQs,AKo",
+    "b": "A5s,A4s,A3s",
+    "c": "JJ-22,AJs-A6s,A2s,KQs-K8s,QJs-Q9s,JTs,J9s,T9s,T8s,98s,97s,87s,86s,76s,65s,54s,AQo,AJo,ATo,KQo,KJo,QJo,K7s,K6s,J8s,T7s,75s,64s,53s,A9o,KTo,QTo,JTo"
+   },
+   "BB_CO": {
+    "v": "JJ+,AKs,AQs,AJs,KQs,AKo,AQo",
+    "b": "A5s-A2s,K9s,Q9s",
+    "c": "TT-22,ATs-A6s,KJs,KTs,K8s-K6s,QJs,QTs,Q8s,JTs,J9s,J8s,T9s,T8s,98s,97s,87s,86s,76s,75s,65s,64s,54s,AJo,ATo,A9o,KQo,KJo,KTo,QJo,QTo,JTo,A8o,K9o,Q9o,J9o,T9o,98o,K5s-K2s,Q7s,Q6s,J7s,T7s,96s,85s,53s,43s"
+   },
+   "BB_BTN": {
+    "v": "TT+,AKs,AQs,AJs,ATs,KQs,KJs,AKo,AQo,AJo,KQo",
+    "b": "A5s-A2s,K9s,K8s,Q9s,J9s,T8s",
+    "c": "99-22,A9s-A6s,KTs,K7s-K2s,QJs,QTs,Q8s-Q5s,JTs,J8s,J7s,T9s,T7s,98s,97s,96s,87s,86s,85s,76s,75s,74s,65s,64s,54s,53s,43s,A8o-ATo,KJo,KTo,K9o,QJo,QTo,Q9o,JTo,J9o,T9o,98o,87o,A2o-A7o,K8o,Q8o,J8o,T8o,97o,Q4s-Q2s,J6s,T6s,95s,63s"
+   },
+   "BB_SB": {
+    "v": "99+,AKs,AQs,AJs,ATs,KQs,KJs,AKo,AQo,AJo,ATo,KQo",
+    "b": "A5s-A2s,K9s-K6s,Q9s,J9s,T8s,97s,86s,75s",
+    "c": "88-22,A9s-A6s,KTs,K5s-K2s,QJs,QTs,Q8s-Q2s,JTs,J8s-J5s,T9s,T7s,T6s,98s,96s,87s,85s,76s,74s,65s,64s,54s,53s,43s,A9o-A2o,KJo,KTo,K9o-K5o,QJo,QTo,Q9o,Q8o,JTo,J9o,J8o,T9o,T8o,98o,97o,87o,76o"
+   }
+  },
+  "info": {
+   "HJ": "3-Bet oder Fold: Hinter dir sitzen noch CO, BTN und die Blinds. Ein Call lädt sie ein, zu squeezen, und du spielst oft ohne Position. Gegen die starke UTG-Range nur Premium-Hände plus wenige Bluffs.",
+   "CO": "3-Bet oder Fold: Mit einem Call würdest du Button und Blinds hinter dir zum Squeezen einladen. Je später der Opener, desto breiter deine 3-Bets – gegen den HJ kommen 99, AJo und KQo dazu.",
+   "BTN": "Am Button hast du nach dem Flop immer Position. Deshalb darfst du hier auch callen: Paare, Suited Broadways und Suited Connectors spielen gut. 3-Bet mit den besten Händen plus Bluffs.",
+   "SB": "Small Blind: 3-Bet oder Fold. Ein Call ist ohne Position und der Big Blind kann noch squeezen. Deine 3-Bet ist größer, etwa 4× (rund 10 BB).",
+   "BB": "Big Blind: Du hast schon 1 BB im Pot und zahlst nur 1,5 BB nach – deshalb verteidigst du breit mit Call. Je später der Opener, desto mehr Hände spielst du. 3-Bets ohne Position etwa 4×."
+  },
+  "general": "Bei einer 3-Bet unterscheidest du zwei Arten: Value (rot) – Hände, die gegen die Range des Gegners vorne liegen, z. B. QQ+ und AK. Bluff (gold) – Hände, die selten vorne liegen, aber gute Eigenschaften haben: Suited Asse blocken AA und AK und können Flush oder Straße treffen. Call (grün) gibt es nur in Position (Button) und im Big Blind.",
+  "note": "Vereinfachte, GTO-nahe Richtwerte für 6-max Cash mit Rake (Open 2,5 BB, aus dem SB 3 BB). Keine Solver-Ausgabe: Echte Lösungen mischen viele Hände. Größen: 3-Bet in Position etwa 3× (7,5 BB), ohne Position etwa 4× (10 BB)."
+ },
+ "vs3bet": {
+  "legend": "v=4-Bet Value, b=4-Bet Bluff, c=Call, Rest der eigenen Open-Range Fold; nur Hände aus der RFI-Range des Heros",
+  "spots": {
+   "UTG_IP": {
+    "v": "KK+,AKs",
+    "b": "A5s",
+    "c": "QQ-99,AKo,AQs,AJs,ATs,KQs,KJs,QJs,JTs"
+   },
+   "UTG_BL": {
+    "v": "KK+,AKs,AKo",
+    "b": "A5s,A4s",
+    "c": "QQ-77,AQs,AJs,ATs,KQs,KJs,QJs,JTs,T9s,AQo"
+   },
+   "HJ_IP": {
+    "v": "KK+,AKs,AKo",
+    "b": "A5s,A4s",
+    "c": "QQ-88,AQs,AJs,ATs,KQs,KJs,QJs,JTs,T9s,AQo"
+   },
+   "HJ_BL": {
+    "v": "QQ+,AKs,AKo",
+    "b": "A5s,A4s,A3s",
+    "c": "JJ-66,AQs-A9s,KQs,KJs,KTs,QJs,QTs,JTs,T9s,98s,87s,AQo,AJo,KQo"
+   },
+   "CO_BTN": {
+    "v": "QQ+,AKs,AKo",
+    "b": "A5s,A4s,A3s",
+    "c": "JJ-77,AQs-ATs,KQs,KJs,KTs,QJs,QTs,JTs,T9s,98s,AQo,AJo,KQo"
+   },
+   "CO_BL": {
+    "v": "QQ+,AKs,AQs,AKo",
+    "b": "A5s-A2s,K9s",
+    "c": "JJ-55,AJs-A8s,KQs-KTs,QJs,QTs,JTs,J9s,T9s,98s,87s,76s,AQo,AJo,KQo"
+   },
+   "BTN_SB": {
+    "v": "JJ+,AKs,AQs,AKo",
+    "b": "A5s-A2s,K8s,K7s,Q9s",
+    "c": "TT-44,AJs-A6s,KQs-K9s,QJs,QTs,JTs,J9s,T9s,T8s,98s,87s,76s,65s,AQo,AJo,ATo,KQo,KJo"
+   },
+   "BTN_BB": {
+    "v": "JJ+,AKs,AQs,AKo",
+    "b": "A5s-A2s,K8s,K7s,Q8s",
+    "c": "TT-33,AJs-A6s,KQs-K9s,QJs,QTs,Q9s,JTs,J9s,T9s,T8s,98s,97s,87s,76s,65s,54s,AQo,AJo,ATo,KQo,KJo,QJo"
+   },
+   "SB_BB": {
+    "v": "QQ+,AKs,AKo",
+    "b": "A5s-A3s",
+    "c": "JJ-55,AQs-A6s,KQs-K9s,QJs,QTs,JTs,J9s,T9s,98s,87s,76s,AQo,AJo,KQo"
+   }
+  },
+  "meta": {
+   "UTG_IP": {
+    "label": "UTG vs HJ–BTN",
+    "title": "UTG gegen 3-Bet aus HJ, CO oder BTN",
+    "vill": [
+     "HJ",
+     "CO",
+     "BTN"
+    ],
+    "ip": false
+   },
+   "UTG_BL": {
+    "label": "UTG vs Blinds",
+    "title": "UTG gegen 3-Bet aus den Blinds",
+    "vill": [
+     "SB",
+     "BB"
+    ],
+    "ip": true
+   },
+   "HJ_IP": {
+    "label": "HJ vs CO/BTN",
+    "title": "HJ gegen 3-Bet aus CO oder BTN",
+    "vill": [
+     "CO",
+     "BTN"
+    ],
+    "ip": false
+   },
+   "HJ_BL": {
+    "label": "HJ vs Blinds",
+    "title": "HJ gegen 3-Bet aus den Blinds",
+    "vill": [
+     "SB",
+     "BB"
+    ],
+    "ip": true
+   },
+   "CO_BTN": {
+    "label": "CO vs BTN",
+    "title": "CO gegen 3-Bet vom Button",
+    "vill": [
+     "BTN"
+    ],
+    "ip": false
+   },
+   "CO_BL": {
+    "label": "CO vs Blinds",
+    "title": "CO gegen 3-Bet aus den Blinds",
+    "vill": [
+     "SB",
+     "BB"
+    ],
+    "ip": true
+   },
+   "BTN_SB": {
+    "label": "BTN vs SB",
+    "title": "Button gegen 3-Bet vom Small Blind",
+    "vill": [
+     "SB"
+    ],
+    "ip": true
+   },
+   "BTN_BB": {
+    "label": "BTN vs BB",
+    "title": "Button gegen 3-Bet vom Big Blind",
+    "vill": [
+     "BB"
+    ],
+    "ip": true
+   },
+   "SB_BB": {
+    "label": "SB vs BB",
+    "title": "Small Blind gegen 3-Bet vom Big Blind",
+    "vill": [
+     "BB"
+    ],
+    "ip": false
+   }
+  },
+  "info": {
+   "oop": "Die 3-Bet kommt von einem Spieler hinter dir – nach dem Flop bist du ohne Position. Deshalb callst du enger und 4-bettest fast nur für Value.",
+   "ip": "Die 3-Bet kommt aus den Blinds – nach dem Flop hast du Position. Du kannst deutlich mehr Hände callen.",
+   "sb": "Small Blind gegen Big Blind: Du bist nach dem Flop ohne Position. Calle nur Hände, die gut spielbar sind."
+  },
+  "general": "Gegen eine 3-Bet spielst du mit deiner Open-Range weiter: 4-Bet (rot) mit den stärksten Händen, Bluff-4-Bet (gold) mit wenigen Suited Assen und Königen, Call (grün) mit gut spielbaren Händen, der Rest wird gefoldet. Etwa die Hälfte deiner Opens zu folden ist normal.",
+  "note": "Vereinfachte Richtwerte, keine Solver-Ausgabe. 4-Bet-Größe: in Position etwa 2,2×, ohne Position etwa 2,5× der 3-Bet. An NL2 sind 3-Bets oft stärker als in der Theorie – folde im Zweifel eher und lass 4-Bet-Bluffs ruhig weg."
+ },
+ "vsLimp": {
+  "legend": "v=Iso-Raise, c=Overlimp (SB komplettieren, BB checken; BB_X: alle übrigen Hände = Check), Rest Fold",
+  "spots": {
+   "HJ_UTG": {
+    "v": "77+,ATs+,KQs,KJs,QJs,AJo+,KQo",
+    "b": "",
+    "c": ""
+   },
+   "CO_UTG": {
+    "v": "66+,A9s+,KTs+,QJs,QTs,JTs,AJo+,KQo",
+    "b": "",
+    "c": "22-55,A2s-A8s,T9s,98s,87s,76s,65s"
+   },
+   "CO_HJ": {
+    "v": "55+,A8s+,A5s,KTs+,QTs+,JTs,ATo+,KJo+",
+    "b": "",
+    "c": "22-44,A2s-A4s,A6s,A7s,K9s,T9s,98s,87s,76s,65s,54s"
+   },
+   "BTN_UTG": {
+    "v": "55+,A8s+,KTs+,QTs+,JTs,ATo+,KJo+",
+    "b": "",
+    "c": "22-44,A2s-A7s,K9s,Q9s,J9s,T9s,98s,87s,76s,65s,54s"
+   },
+   "BTN_HJ": {
+    "v": "55+,A7s+,A5s,K9s+,QTs+,JTs,T9s,ATo+,KJo+,QJo",
+    "b": "",
+    "c": "22-44,A2s-A4s,A6s,K8s,Q9s,J9s,T8s,98s,87s,76s,65s,54s"
+   },
+   "BTN_CO": {
+    "v": "44+,A2s+,K9s+,Q9s+,J9s+,T9s,98s,A9o+,KTo+,QJo",
+    "b": "",
+    "c": "22,33,K8s,K7s,T8s,97s,87s,76s,65s,54s"
+   },
+   "SB_X": {
+    "v": "88+,ATs+,KJs+,AJo+,KQo",
+    "b": "",
+    "c": "22-77,A2s-A9s,KTs,K9s,QTs+,J9s+,T9s,98s,87s,76s,65s,54s,ATo,KJo,QJo"
+   },
+   "BB_X": {
+    "v": "88+,ATs+,KJs+,AJo+,KQo",
+    "b": "",
+    "c": "",
+    "allC": true
+   }
+  },
+  "meta": {
+   "HJ_UTG": {
+    "label": "HJ, UTG limpt",
+    "vill": [
+     "UTG"
+    ]
+   },
+   "CO_UTG": {
+    "label": "CO, UTG limpt",
+    "vill": [
+     "UTG"
+    ]
+   },
+   "CO_HJ": {
+    "label": "CO, HJ limpt",
+    "vill": [
+     "HJ"
+    ]
+   },
+   "BTN_UTG": {
+    "label": "BTN, UTG limpt",
+    "vill": [
+     "UTG"
+    ]
+   },
+   "BTN_HJ": {
+    "label": "BTN, HJ limpt",
+    "vill": [
+     "HJ"
+    ]
+   },
+   "BTN_CO": {
+    "label": "BTN, CO limpt",
+    "vill": [
+     "CO"
+    ]
+   },
+   "SB_X": {
+    "label": "SB, ein Limper",
+    "vill": [
+     "UTG",
+     "HJ",
+     "CO",
+     "BTN"
+    ]
+   },
+   "BB_X": {
+    "label": "BB, ein Limper",
+    "vill": [
+     "UTG",
+     "HJ",
+     "CO",
+     "BTN",
+     "SB"
+    ]
+   }
+  },
+  "info": {
+   "HJ": "Aus dem HJ gilt: Iso-Raise oder Fold. Für Overlimps sitzen zu viele Spieler hinter dir.",
+   "CO": "Im Cutoff: Iso-Raise mit starken Händen. Overlimp mit kleinen Paaren, Suited Connectors und Suited Assen – sie spielen gut gegen mehrere Gegner.",
+   "BTN": "Am Button hast du immer Position: Iso-Raise mit einer breiten, starken Range, Overlimp mit spekulativen Händen.",
+   "SB": "Im Small Blind komplettierst du für 0,5 BB mit spekulativen Händen. Mit starken Händen Iso-Raise auf etwa 5 BB – du bist ja ohne Position.",
+   "BB": "Im Big Blind siehst du den Flop gratis – Fold gibt es hier nicht. Raise nur mit starken Händen für Value, sonst checken."
+  },
+  "general": "Limpen (nur den Big Blind bezahlen) ist an NL2 sehr häufig und meist ein Zeichen für schwächere Spieler. Iso-Raise: Erhöhe auf etwa 4 BB plus 1 BB pro Limper, um heads-up gegen die schwache Range zu spielen. Die Iso-Range ist enger als deine Open-Range und wertorientiert, weil Limper oft callen.",
+  "note": "Vereinfachte Richtwerte für NL2, keine Solver-Ausgabe – die meisten Solver-Charts enthalten keine Limp-Situationen."
+ },
+ "math": {
+  "potOddsTable": [
+   {
+    "label": "¼ Pot",
+    "factor": 0.25,
+    "neededEquityPct": 17,
+    "range": null
+   },
+   {
+    "label": "⅓ Pot",
+    "factor": 0.3333333333333333,
+    "neededEquityPct": 20,
+    "range": null
+   },
+   {
+    "label": "½ Pot",
+    "factor": 0.5,
+    "neededEquityPct": 25,
+    "range": null
+   },
+   {
+    "label": "⅔–¾ Pot",
+    "factor": 0.7,
+    "neededEquityPct": 30,
+    "range": [
+     0.6666666666666666,
+     0.75
+    ]
+   },
+   {
+    "label": "Pot",
+    "factor": 1,
+    "neededEquityPct": 33,
+    "range": null
+   },
+   {
+    "label": "2× Pot",
+    "factor": 2,
+    "neededEquityPct": 40,
+    "range": null
+   }
+  ],
+  "bluffTable": [
+   {
+    "label": "¼ Pot",
+    "factor": 0.25,
+    "neededFoldPct": 20,
+    "range": null
+   },
+   {
+    "label": "⅓ Pot",
+    "factor": 0.3333333333333333,
+    "neededFoldPct": 25,
+    "range": null
+   },
+   {
+    "label": "½ Pot",
+    "factor": 0.5,
+    "neededFoldPct": 33,
+    "range": null
+   },
+   {
+    "label": "⅔–¾ Pot",
+    "factor": 0.7,
+    "neededFoldPct": 40,
+    "range": [
+     0.6666666666666666,
+     0.75
+    ]
+   },
+   {
+    "label": "Pot",
+    "factor": 1,
+    "neededFoldPct": 50,
+    "range": null
+   },
+   {
+    "label": "2× Pot",
+    "factor": 2,
+    "neededFoldPct": 67,
+    "range": null
+   }
+  ]
+ }
+}

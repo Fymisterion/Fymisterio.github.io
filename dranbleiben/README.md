@@ -17,6 +17,8 @@ Gewohnheiten für Android – ohne Konto, ohne Werbung, Teil der [App-Landschaft
 
 Bei jedem Push baut GitHub Actions eine Debug-APK (`.github/workflows/dranbleiben.yml`, Artefakt `dranbleiben-debug-apk`).
 
+Veröffentlicht wird über den Workflow „Dranbleiben veröffentlichen“ in [app-landschaft](https://github.com/Fymisterion/app-landschaft): er baut `assembleRelease` aus diesem Ordner und hängt `Dranbleiben.apk` an das Release `dranbleiben-v<version>`. Sind dort die Secrets `KEYSTORE_BASE64`, `KEYSTORE_PASSWORD`, `KEY_ALIAS`, `KEY_PASSWORD` gesetzt, wird mit dem Familien-Schlüssel signiert, sonst als Vorschau (`VORSCHAU=1`) mit einem Debug-Schlüssel.
+
 ## Aufbau
 
 | Datei | Inhalt |

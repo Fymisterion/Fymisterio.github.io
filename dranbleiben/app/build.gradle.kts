@@ -36,7 +36,9 @@ android {
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            // Ohne Familien-Schluessel: Vorschau-Build (CI, VORSCHAU=1) mit dem Debug-Schluessel signieren
             signingConfig = signingConfigs.findByName("release")
+                ?: signingConfigs.getByName("debug").takeIf { System.getenv("VORSCHAU") == "1" }
         }
     }
     compileOptions {
